@@ -1,7 +1,7 @@
-> **Note:** This revision of the PCB has a hardware bug causing USB to be non-functional.
+> **Note:** Old revision of the PCB has a hardware bug causing USB to be non-functional.
 > See the Known Hardware Issues section in the root README for details. The bootloader
 > still needs to be burned via ISP regardless of PCB revision, as the chip ships blank.
-> On a corrected revision, only the bootloader burn requires ISP — all subsequent firmware
+> On a current revision, only the bootloader burn requires ISP — all subsequent firmware
 > uploads can be done over USB using `Sketch > Upload` with Adafruit Feather 32U4 selected.
 
 ## Programming
