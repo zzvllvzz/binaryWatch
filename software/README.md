@@ -34,8 +34,10 @@ UNO outputs 5V logic and the PCB runs at 3.3V. MISO needs no resistor.
 | Pin 12  | —        | MISO           |
 | Pin 11  | 1K       | MOSI           |
 | Pin 10  | 1K       | RESET          |
-| —       | —        | VCC            | (do not connect — PCB is powered with 3.3 V by either LiPo battery or USB cable)
+| —       | —        | VCC            |
 | GND     | —        | GND            |
+
+(do not connect VCC — PCB is powered with 3.3 V by either LiPo battery or USB cable)
 
 ### Step 3 — Burn the bootloader
 
@@ -47,7 +49,7 @@ UNO outputs 5V logic and the PCB runs at 3.3V. MISO needs no resistor.
 ### Step 4 — Uploading Firmware
 
 After the bootloader is burned, use `Sketch > Upload Using Programmer` for all future
-uploads on this revision. On a corrected PCB revision with working USB, use the standard
+uploads on old revision. On a current PCB revision with working USB, use the standard
 `Sketch > Upload` instead.
 
 ## Firmware
