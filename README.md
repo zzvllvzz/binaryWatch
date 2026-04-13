@@ -31,7 +31,7 @@ Three modes are supported, selected via the three onboard buttons:
 - `software/` — firmware source code and programming instructions
 - `hardware/` — schematics (fixed revision)
 
-### Known Hardware Issue
+## Known Hardware Issue
 
 **Fixed:**
 The D+ and D- lines between the micro-USB connector and the ATmega32U4 were swapped on
