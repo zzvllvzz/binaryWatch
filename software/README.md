@@ -42,7 +42,7 @@ UNO outputs 5V logic and the PCB runs at 3.3V. MISO needs no resistor.
 ### Step 3 — Burn the bootloader
 
 1. In Arduino IDE, install **Adafruit AVR Boards** via `Tools > Board > Boards Manager`
-2. Set `Tools > Board` to **Adafruit Feather 32U4** (8MHz, 3.3V — matches this hardware)
+2. Set `Tools > Board` to **Adafruit Feather 32U4** (8MHz, 3.3V)
 3. Set `Tools > Programmer` to **Arduino as ISP**
 4. Click `Tools > Burn Bootloader`
 
