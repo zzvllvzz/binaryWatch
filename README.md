@@ -28,7 +28,7 @@ Three modes are supported, selected via the three onboard buttons:
 
 ### Known Hardware Issue
 
-**Fixed**
+**Fixed:**
 The D+ and D- lines between the micro-USB connector and the ATmega32U4 were swapped on
 the PCB. As a result, the board could no be recognized as a USB device. All firmware was
 flashed via the SPI header using Arduino UNO as an external ISP programmer.
