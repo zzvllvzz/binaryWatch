@@ -1,46 +1,50 @@
-> **Note:** These programming instructions apply to revision 1 of the PCB, which has a
-> hardware bug causing USB to be non-functional. On a corrected revision, the bootloader
-> still needs to be burned once via ISP using the same process described below. After
-> that, firmware can be uploaded directly over USB using `Sketch > Upload` with the
-> Adafruit Feather 32U4 board selected, without needing the ISP setup again.
+> **Note:** This revision of the PCB has a hardware bug causing USB to be non-functional.
+> See the Known Hardware Issues section in the root README for details. The bootloader
+> still needs to be burned via ISP regardless of PCB revision, as the chip ships blank.
+> On a corrected revision, only the bootloader burn requires ISP — all subsequent firmware
+> uploads can be done over USB using `Sketch > Upload` with Adafruit Feather 32U4 selected.
 
 ## Programming
 
-Since USB is non-functional, the chip must be programmed via the onboard SPI header using
-an Arduino UNO as an ISP programmer.
+The ATmega32U4 ships blank and requires a bootloader to be burned first before any
+firmware can be uploaded. This is done using an Arduino UNO as an ISP programmer via
+the onboard SPI header.
 
 ### Requirements
 - Arduino UNO
 - Jumper wires
 - 10µF capacitor
-- Resistors (1K) for voltage regulation (the UNO is 5V, the PCB runs at 3.3V)
+- 3x 1K resistors (the UNO outputs 5V logic, the PCB runs at 3.3V)
 
-### Wiring (UNO -> PCB SPI header)
+### Step 1 — Prepare the UNO as an ISP programmer
 
-| UNO Pin | PCB SPI Header |
-|---------|---------------|
-| Pin 13  | SCK           |
-| Pin 12  | MISO          |
-| Pin 11  | MOSI          |
-| Pin 10  | RESET         |
-| --      | VCC           |  (do not connect — PCB is powered separately)
-| GND     | GND           |
+1. Open Arduino IDE
+2. Go to `File > Examples > 11.ArduinoISP > ArduinoISP`
+3. Upload the sketch to the UNO with `Tools > Board` set to **Arduino Uno**
+4. Place a 10µF capacitor between the UNO's **RESET** and **GND** pins (positive to RESET)
 
-Place a 10µF capacitor between RESET and GND on the UNO (positive to RESET).
+### Step 2 — Wire the UNO to the PCB SPI header
 
-**Important:** Add a 1K resistor in series on MOSI, SCK and RESET lines between the UNO
-and the PCB. This is necessary because the UNO outputs 5V logic and the PCB runs at 3.3V.
-MISO needs no resistor.
+Add a 1K resistor in series on MOSI, SCK and RESET lines. This is required because the
+UNO outputs 5V logic and the PCB runs at 3.3V. MISO needs no resistor.
 
-### Burning the Bootloader
+| UNO Pin | Resistor | PCB SPI Header |
+|---------|----------|----------------|
+| Pin 13  | 1K       | SCK            |
+| Pin 12  | —        | MISO           |
+| Pin 11  | 1K       | MOSI           |
+| Pin 10  | 1K       | RESET          |
+| —       | —        | VCC            | (do not connect — PCB is powered with 3.3 V by either LiPo battery or USB cable)
+| GND     | —        | GND            |
 
-1. Upload `File > Examples > 11.ArduinoISP > ArduinoISP` to the UNO
-2. In Arduino IDE, install Adafruit AVR Boards via Boards Manager
-3. Set `Tools > Board` to **Adafruit Feather 32U4** (8MHz, 3.3V)
-4. Set `Tools > Programmer` to **Arduino as ISP**
-5. Click `Tools > Burn Bootloader`
+### Step 3 — Burn the bootloader
 
-### Uploading Firmware
+1. In Arduino IDE, install **Adafruit AVR Boards** via `Tools > Board > Boards Manager`
+2. Set `Tools > Board` to **Adafruit Feather 32U4** (8MHz, 3.3V — matches this hardware)
+3. Set `Tools > Programmer` to **Arduino as ISP**
+4. Click `Tools > Burn Bootloader`
+
+### Step 4 — Uploading Firmware
 
 After the bootloader is burned, use `Sketch > Upload Using Programmer` for all future
 uploads on this revision. On a corrected PCB revision with working USB, use the standard
