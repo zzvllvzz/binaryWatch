@@ -1,3 +1,9 @@
+> **Note:** These programming instructions apply to revision 1 of the PCB, which has a
+> hardware bug causing USB to be non-functional. See the Known Hardware Issues section
+> in the root README for details. On a corrected revision, firmware can be uploaded
+> directly over USB using the standard Arduino IDE upload button with the
+> Adafruit Feather 32U4 board selected.
+
 ## Programming
 
 Since USB is non-functional, the chip must be programmed via the onboard SPI header using
@@ -17,12 +23,14 @@ an Arduino UNO as an ISP programmer.
 | Pin 12  | MISO          |
 | Pin 11  | MOSI          |
 | Pin 10  | RESET         |
-| --      | VCC           |
+| --      | VCC           |  (do not connect — PCB is powered separately)
 | GND     | GND           |
 
 Place a 10µF capacitor between RESET and GND on the UNO (positive to RESET).
 
-**Important:** Add a 1K resistor on MOSI, SCK and RESET lines to bring 5V down. MISO needs no divider.
+**Important:** Add a 1K resistor in series on MOSI, SCK and RESET lines between the UNO
+and the PCB. This is necessary because the UNO outputs 5V logic and the PCB runs at 3.3V.
+MISO needs no resistor.
 
 ### Burning the Bootloader
 
