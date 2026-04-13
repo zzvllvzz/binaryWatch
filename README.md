@@ -26,11 +26,16 @@ Three modes are supported, selected via the three onboard buttons:
 - **Input:** 3x tactile buttons
 - **PCB:** 4-layer, 42x42mm, designed in EasyEDA, manufactured as PCBA by JLCPCB
 
+## Repository Structure
+
+- `software/` — firmware source code and programming instructions
+- `hardware/` — schematics (fixed revision)
+
 ### Known Hardware Issue
 
 **Fixed:**
 The D+ and D- lines between the micro-USB connector and the ATmega32U4 were swapped on
-the PCB. As a result, the board could no be recognized as a USB device. All firmware was
+the PCB. As a result, the board could not be recognized as a USB device. All firmware was
 flashed via the SPI header using Arduino UNO as an external ISP programmer.
 
 SPI header **H1** is hanging over the bottom watch strap hole. Even though it is a THT
