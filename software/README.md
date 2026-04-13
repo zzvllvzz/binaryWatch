@@ -1,8 +1,8 @@
 > **Note:** These programming instructions apply to revision 1 of the PCB, which has a
-> hardware bug causing USB to be non-functional. See the Known Hardware Issues section
-> in the root README for details. On a corrected revision, firmware can be uploaded
-> directly over USB using the standard Arduino IDE upload button with the
-> Adafruit Feather 32U4 board selected.
+> hardware bug causing USB to be non-functional. On a corrected revision, the bootloader
+> still needs to be burned once via ISP using the same process described below. After
+> that, firmware can be uploaded directly over USB using `Sketch > Upload` with the
+> Adafruit Feather 32U4 board selected, without needing the ISP setup again.
 
 ## Programming
 
@@ -43,7 +43,8 @@ MISO needs no resistor.
 ### Uploading Firmware
 
 After the bootloader is burned, use `Sketch > Upload Using Programmer` for all future
-uploads. Do not use the standard Upload button — USB does not work.
+uploads on this revision. On a corrected PCB revision with working USB, use the standard
+`Sketch > Upload` instead.
 
 ## Firmware
 
