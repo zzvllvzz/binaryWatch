@@ -1,67 +1,93 @@
-> **Note:** Old revision of the PCB has a hardware bug causing USB to be non-functional.
-> See the Known Hardware Issues section in the root README for details. The bootloader
-> still needs to be burned via ISP regardless of PCB revision, as the chip ships blank.
-> On a current revision, only the bootloader burn requires ISP — all subsequent firmware
-> uploads can be done over USB using `Sketch > Upload` with Adafruit Feather 32U4 selected.
+# Firmware
 
-## Programming
+Arduino C++ firmware for the binary LED wristwatch.
 
-The ATmega32U4 ships blank and requires a bootloader to be burned first before any
-firmware can be uploaded. This is done using an Arduino UNO as an ISP programmer via
-the onboard SPI header.
+> **Note — old PCB revision:** the original PCB revision has a USB D+/D- swap
+> that makes USB non-functional (see
+> [Known Hardware Issues](../README.md#known-hardware-issues) in the root
+> README). The bootloader must be burned via ISP on **both** revisions because
+> the ATmega32U4 ships blank. On the current revision, all subsequent
+> firmware uploads can be done over USB using `Sketch > Upload` with
+> **Adafruit Feather 32U4** selected.
+
+## Contents
+
+- [Burning the Bootloader](#burning-the-bootloader)
+- [Uploading Firmware](#uploading-firmware)
+- [Libraries](#libraries)
+- [Setting the Time](#setting-the-time)
+- [Pin Map](#pin-map)
+
+## Burning the Bootloader
+
+The ATmega32U4 ships blank, so a bootloader must be burned before any firmware
+can be uploaded. This is done with an Arduino UNO acting as an ISP programmer,
+connected via the onboard SPI header.
 
 ### Requirements
+
 - Arduino UNO
 - Jumper wires
-- 10µF capacitor
-- 3x 1K resistors (the UNO outputs 5V logic, the PCB runs at 3.3V)
+- 10 µF capacitor
+- 3× 1 kΩ resistors (the UNO drives 5 V logic; the PCB runs at 3.3 V)
 
 ### Step 1 — Prepare the UNO as an ISP programmer
 
-1. Open Arduino IDE
-2. Go to `File > Examples > 11.ArduinoISP > ArduinoISP`
-3. Upload the sketch to the UNO with `Tools > Board` set to **Arduino Uno**
-4. Place a 10µF capacitor between the UNO's **RESET** and **GND** pins (positive to RESET)
+1. Open the Arduino IDE.
+2. Open `File > Examples > 11.ArduinoISP > ArduinoISP`.
+3. With `Tools > Board` set to **Arduino Uno**, upload the sketch to the UNO.
+4. Place a 10 µF capacitor between the UNO's **RESET** and **GND** pins
+   (positive terminal to RESET).
 
 ### Step 2 — Wire the UNO to the PCB SPI header
 
-Add a 1K resistor in series on MOSI, SCK and RESET lines. This is required because the
-UNO outputs 5V logic and the PCB runs at 3.3V. MISO needs no resistor.
+Add a 1 kΩ resistor in series on the MOSI, SCK, and RESET lines to bridge the
+5 V → 3.3 V logic level difference. MISO needs no resistor.
 
 | UNO Pin | Resistor | PCB SPI Header |
 |---------|----------|----------------|
-| Pin 13  | 1K       | SCK            |
+| Pin 13  | 1 kΩ     | SCK            |
 | Pin 12  | —        | MISO           |
-| Pin 11  | 1K       | MOSI           |
-| Pin 10  | 1K       | RESET          |
+| Pin 11  | 1 kΩ     | MOSI           |
+| Pin 10  | 1 kΩ     | RESET          |
 | —       | —        | VCC            |
 | GND     | —        | GND            |
 
-(do not connect VCC — PCB is powered with 3.3 V by either LiPo battery or USB cable)
+> Do **not** connect VCC — the PCB is already powered at 3.3 V via either the
+> LiPo battery or the USB cable.
 
 ### Step 3 — Burn the bootloader
 
-1. In Arduino IDE, install **Adafruit AVR Boards** via `Tools > Board > Boards Manager`
-2. Set `Tools > Board` to **Adafruit Feather 32U4** (8MHz, 3.3V)
-3. Set `Tools > Programmer` to **Arduino as ISP**
-4. Click `Tools > Burn Bootloader`
+1. In the Arduino IDE, install **Adafruit AVR Boards** via
+   `Tools > Board > Boards Manager`.
+2. Set `Tools > Board` to **Adafruit Feather 32U4** (8 MHz, 3.3 V).
+3. Set `Tools > Programmer` to **Arduino as ISP**.
+4. Click `Tools > Burn Bootloader`.
 
-### Step 4 — Uploading Firmware
+## Uploading Firmware
 
-After the bootloader is burned, use `Sketch > Upload Using Programmer` for all future
-uploads on old revision. On a current PCB revision with working USB, use the standard
-`Sketch > Upload` instead.
+Once the bootloader has been burned:
 
-## Firmware
+- **Current PCB revision (working USB):** use the standard `Sketch > Upload`.
+- **Old PCB revision (USB non-functional):** use `Sketch > Upload Using Programmer`
+  with the ISP wiring from above.
 
-Written in Arduino C++. Uses the following library:
+## Libraries
+
+Written in Arduino C++. The only external dependency is:
 
 - [RTClib by Adafruit](https://github.com/adafruit/RTClib)
 
-`Wire.h` is built into Arduino IDE and requires no separate installation.
+`Wire.h` is bundled with the Arduino IDE and requires no separate installation.
 
-On first boot, if the RTC has lost power, set the time manually by uncommenting and
-editing this line in `setup()`:
+## Setting the Time
+
+When the RTC loses power, the firmware automatically sets it to the sketch's
+compile time using the `__DATE__` / `__TIME__` macros, so in most cases no
+action is required.
+
+To set a specific time manually instead, uncomment and edit the alternate
+`rtc.adjust(...)` call in `setup()`:
 
 ```cpp
 rtc.adjust(DateTime(2026, 4, 13, 14, 36, 0)); // Y, M, D, H, Min, Sec
