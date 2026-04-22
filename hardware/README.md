@@ -6,10 +6,12 @@ Design and manufacturing files for the binary LED wristwatch PCB.
 
 | File                           | Description                                                       |
 |--------------------------------|-------------------------------------------------------------------|
-| `binaryWatch.pdf`              | Schematic (corrected revision, PDF)                               |
+| `ProDoc_Schematic1_*.epro`     | Schematic source file (EasyEDA Pro)                               |
+| `binaryWatch.pdf`              | Schematic (corrected revision, PDF export)                        |
 | `Gerber_PCB1_*.zip`            | Gerber files for PCB fabrication                                  |
 | `BOM_Board1_PCB1_*.xlsx`       | Bill of materials                                                 |
 | `PickAndPlace_PCB1_*.xlsx`     | Component placement coordinates for PCBA                          |
+| `binaryWatch.jpg`              | Photo of the assembled board                                      |
 
 ## Manufacturing
 
@@ -21,8 +23,9 @@ used for the assembly order and can be re-submitted as-is.
 
 ## Revision Notes
 
-The schematic in this directory is the **corrected revision** with the USB
-D+/D- swap fixed. For background on the original issue, see the
+The schematic in this directory (both the `.epro` source and the PDF export)
+is the **corrected revision** with the USB D+/D- swap fixed. For background
+on the original issue, see the
 [Known Hardware Issues](../README.md#known-hardware-issues) section in the
 root README.
 

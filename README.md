@@ -9,11 +9,9 @@ and active display mode.
 ![Platform](https://img.shields.io/badge/platform-ATmega32U4-blue)
 ![PCB](https://img.shields.io/badge/PCB-4%20layer%20%7C%2042%C3%9742%20mm-green)
 
-<!-- Photo of the assembled watch goes here, e.g.:
 <p align="center">
-  <img src="docs/wristwatch.jpg" alt="Binary LED Wristwatch" width="420">
+  <img src="hardware/binaryWatch.jpg" alt="Assembled binary LED wristwatch PCB" width="420">
 </p>
--->
 
 ## Table of Contents
 
@@ -63,7 +61,8 @@ blink rate indicates which mode is currently active.
 | Input     | 3× tactile buttons                                               |
 | PCB       | 4-layer, 42 × 42 mm, designed in EasyEDA, assembled by JLCPCB    |
 
-Schematic, Gerbers, BOM, and pick-and-place files are in [`hardware/`](hardware/).
+Schematic (EasyEDA Pro source and PDF), Gerbers, BOM, and pick-and-place files
+are in [`hardware/`](hardware/).
 
 ## Repository Structure
 
